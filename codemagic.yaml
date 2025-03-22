@@ -34,6 +34,8 @@ workflows:
             ENABLE_BITCODE=NO \
             ONLY_ACTIVE_ARCH=NO \
             VALIDATE_WORKSPACE=NO \
+            IBSC_MODULE="NFC_Example" \
+            IBSC_COMPILER_PATH="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ibtool" \
             -verbose
           xcodebuild -exportArchive \
             -archivePath build/ios/archive/NFC-Example.xcarchive \
