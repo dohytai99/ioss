@@ -1,0 +1,56 @@
+workflows:
+  ios-workflow:
+    name: iOS Build
+    max_build_duration: 60
+    environment:
+      vars:
+        XCODE_WORKSPACE: "NFC-Example.xcodeproj"
+        XCODE_SCHEME: "NFC-Example"
+        BUNDLE_ID: "com.example.NFC-Example"
+        CERTIFICATE_PRIVATE_KEY: $CERTIFICATE_PRIVATE_KEY
+        CERTIFICATE_PASSWORD: $CERTIFICATE_PASSWORD
+        PROVISIONING_PROFILE: $PROVISIONING_PROFILE
+        PROVISIONING_PROFILE_SPECIFIER: $PROVISIONING_PROFILE_SPECIFIER
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Set up code signing settings on Xcode project
+        script: |
+          /usr/libexec/PlistBuddy -c "Add :objects:$(plutil -extract objects.PBXProject.attributes.TargetAttributes.13B07F861A680F5B00A75B9A.DevelopmentTeam string -o - build/ios/archive/NFC-Example.xcodeproj/project.pbxproj) developmentTeam string $TEAM_ID" build/ios/archive/NFC-Example.xcodeproj/project.pbxproj
+          /usr/libexec/PlistBuddy -c "Set :objects:$(plutil -extract objects.PBXProject.attributes.TargetAttributes.13B07F861A680F5B00A75B9A.DevelopmentTeam string -o - build/ios/archive/NFC-Example.xcodeproj/project.pbxproj) developmentTeam $TEAM_ID" build/ios/archive/NFC-Example.xcodeproj/project.pbxproj
+          /usr/libexec/PlistBuddy -c "Set :objects:$(plutil -extract objects.PBXProject.attributes.TargetAttributes.13B07F861A680F5B00A75B9A.ProvisioningStyle string -o - build/ios/archive/NFC-Example.xcodeproj/project.pbxproj) provisioningStyle Manual" build/ios/archive/NFC-Example.xcodeproj/project.pbxproj
+      - name: Install Apple certificate
+        script: |
+          # Create a temporary keychain
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          # Import certificate from environment variable
+          security import <(echo -n "$CERTIFICATE_PRIVATE_KEY" | base64 --decode) \
+            -P "$CERTIFICATE_PASSWORD" \
+            -A \
+            -t cert \
+            -f pkcs12 \
+            -k build.keychain
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "" build.keychain
+      - name: Install provisioning profile
+        script: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "$PROVISIONING_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
+      - name: Build IPA
+        script: |
+          xcodebuild archive \
+            -project "$XCODE_WORKSPACE" \
+            -scheme "$XCODE_SCHEME" \
+            -archivePath build/ios/archive/NFC-Example.xcarchive \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+          xcodebuild -exportArchive \
+            -archivePath build/ios/archive/NFC-Example.xcarchive \
+            -exportPath build/ios/ipa \
+            -exportOptionsPlist ios/exportOptions.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log 
