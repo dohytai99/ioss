@@ -10,5 +10,11 @@
     <true/>
     <key>provisioningProfiles</key>
     <dict/>
+    <key>signingStyle</key>
+    <string>manual</string>
+    <key>signingCertificate</key>
+    <string>Apple Development</string>
+    <key>teamID</key>
+    <string></string>
 </dict>
 </plist> 
