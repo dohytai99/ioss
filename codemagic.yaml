@@ -16,7 +16,7 @@ workflows:
           mkdir -p build/ios/ipa
       - name: Build IPA
         script: |
-          xcodebuild clean -project "$XCODE_WORKSPACE" -scheme "$XCODE_SCHEME"
+          xcodebuild clean -project "$XCODE_WORKSPACE" -scheme "$XCODE_SCHEME" -verbose
           xcodebuild archive \
             -project "$XCODE_WORKSPACE" \
             -scheme "$XCODE_SCHEME" \
@@ -26,11 +26,13 @@ workflows:
             CODE_SIGNING_ALLOWED=NO \
             DEVELOPMENT_TEAM="" \
             PROVISIONING_PROFILE_SPECIFIER="" \
-            PROVISIONING_PROFILE=""
+            PROVISIONING_PROFILE="" \
+            -verbose
           xcodebuild -exportArchive \
             -archivePath build/ios/archive/NFC-Example.xcarchive \
             -exportPath build/ios/ipa \
-            -exportOptionsPlist ios/exportOptions.plist
+            -exportOptionsPlist ios/exportOptions.plist \
+            -verbose
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
