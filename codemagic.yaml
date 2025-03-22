@@ -18,7 +18,13 @@ workflows:
           ls -la
       - name: Build IPA
         script: |
+          # Clean DerivedData
+          rm -rf ~/Library/Developer/Xcode/DerivedData/*
+          
+          # Clean and build
           xcodebuild clean -project "$XCODE_WORKSPACE" -scheme "$XCODE_SCHEME" -verbose
+          
+          # Archive
           xcodebuild archive \
             -project "$XCODE_WORKSPACE" \
             -scheme "$XCODE_SCHEME" \
@@ -44,12 +50,19 @@ workflows:
             GCC_OPTIMIZATION_LEVEL=0 \
             SWIFT_ACTIVE_COMPILATION_CONDITIONS="DEBUG" \
             GCC_PREPROCESSOR_DEFINITIONS="DEBUG=1" \
+            CONFIGURATION=Release \
+            -destination 'generic/platform=iOS' \
             -verbose
-          ls -la build/ios/archive/
+          
+          # Check archive exists
+          ls -la "$PWD/build/ios/archive"
+          
+          # Export IPA
           xcodebuild -exportArchive \
             -archivePath "$PWD/build/ios/archive/NFC-Example.xcarchive" \
             -exportPath "$PWD/build/ios/ipa" \
             -exportOptionsPlist ios/exportOptions.plist \
+            -allowProvisioningUpdates \
             -verbose
     artifacts:
       - build/ios/ipa/*.ipa

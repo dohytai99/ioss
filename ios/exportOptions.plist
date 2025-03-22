@@ -3,17 +3,25 @@
 <plist version="1.0">
 <dict>
     <key>method</key>
-    <string>development</string>
+    <string>ad-hoc</string>
     <key>teamID</key>
     <string></string>
     <key>signingStyle</key>
-    <string>manual</string>
-    <key>provisioningProfiles</key>
-    <dict>
-    </dict>
+    <string>automatic</string>
     <key>compileBitcode</key>
     <false/>
     <key>stripSwiftSymbols</key>
     <true/>
+    <key>thinning</key>
+    <string>&lt;none&gt;</string>
+    <key>manifest</key>
+    <dict>
+        <key>appURL</key>
+        <string>https://example.com/app.ipa</string>
+        <key>displayImageURL</key>
+        <string>https://example.com/image.57x57.png</string>
+        <key>fullSizeImageURL</key>
+        <string>https://example.com/image.512x512.png</string>
+    </dict>
 </dict>
 </plist> 
