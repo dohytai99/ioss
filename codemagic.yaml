@@ -41,6 +41,9 @@ workflows:
             SKIP_INSTALL=NO \
             BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
             BUILD_ACTIVE_RESOURCES_ONLY=NO \
+            GCC_OPTIMIZATION_LEVEL=0 \
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS="DEBUG" \
+            GCC_PREPROCESSOR_DEFINITIONS="DEBUG=1" \
             -verbose
           ls -la build/ios/archive/
           xcodebuild -exportArchive \
