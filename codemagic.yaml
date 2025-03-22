@@ -11,6 +11,7 @@ workflows:
     scripts:
       - name: Build IPA
         script: |
+          xcodebuild clean
           xcodebuild archive \
             -project "$XCODE_WORKSPACE" \
             -scheme "$XCODE_SCHEME" \

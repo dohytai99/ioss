@@ -1,144 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.17" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="K24-7V-3kW">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--RFID Example-->
-        <scene sceneID="bth-rX-GUl">
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
             <objects>
-                <tableViewController id="Jps-3G-p8a" customClass="RFIDTableViewController" customModule="NFC_Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="dIi-JW-Fhi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <viewController id="BYZ-38-t0r" customClass="NFCTableViewController" customModule="NFC_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="NFCTableCell" textLabel="3d4-ID-0g0" style="IBUITableViewCellStyleDefault" id="M0O-Lh-334">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M0O-Lh-334" id="Zl5-UF-YFz">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3d4-ID-0g0">
-                                            <rect key="frame" x="16" y="0.0" width="324" height="43.5"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="h2k-3h-3dC">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NFCTableCell" rowHeight="60" id="gYd-9h-3dC" customClass="NFCTableViewCell" customModule="NFC_Example" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="86" width="393" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gYd-9h-3dC" id="h2k-3h-3dC">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="Jps-3G-p8a" id="g9n-AT-mMd"/>
-                            <outlet property="delegate" destination="Jps-3G-p8a" id="au4-Vh-Vbd"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="RFID Example" id="vGz-wH-jRb">
-                        <barButtonItem key="leftBarButtonItem" title="Close" id="41d-X5-IK4">
-                            <connections>
-                                <action selector="dismissViewController:" destination="Jps-3G-p8a" id="sAi-Cn-zBA"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Start Search" id="IQ8-S5-UL9">
-                            <connections>
-                                <action selector="startRFIDSearchButtonTapped:" destination="Jps-3G-p8a" id="MaZ-aQ-IMi"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9hh-ox-Gxu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2033" y="-546"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Pgm-A8-hC5">
-            <objects>
-                <navigationController id="wR4-Da-dCQ" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DIF-XQ-vgo">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gYd-9h-3dC">
+                                                    <rect key="frame" x="16" y="8" width="361" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2k-3h-3dC">
+                                                    <rect key="frame" x="16" y="32" width="361" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="gYd-9h-3dC" firstAttribute="leading" secondItem="h2k-3h-3dC" secondAttribute="leading" constant="16" id="gYd-9h-3dC"/>
+                                                <constraint firstItem="h2k-3h-3dC" firstAttribute="trailing" secondItem="gYd-9h-3dC" secondAttribute="trailing" constant="16" id="h2k-3h-3dC"/>
+                                                <constraint firstItem="h2k-3h-3dC" firstAttribute="bottom" secondItem="gYd-9h-3dC" secondAttribute="bottom" constant="8" id="h2k-3h-3dC"/>
+                                                <constraint firstItem="gYd-9h-3dC" firstAttribute="top" secondItem="h2k-3h-3dC" secondAttribute="top" constant="8" id="h2k-3h-3dC"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h2k-3h-3dC">
+                                <rect key="frame" x="16" y="808" width="361" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="h2k-3h-3dC"/>
+                                </constraints>
+                                <state key="normal" title="Quét lại">
+                                    <connections>
+                                        <action selector="restartScanning:" destination="BYZ-38-t0r" eventType="touchUpInside" id="h2k-3h-3dC"/>
+                                    </connections>
+                                </state>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="h2k-3h-3dC" secondAttribute="trailing" id="h2k-3h-3dC"/>
+                            <constraint firstItem="h2k-3h-3dC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="h2k-3h-3dC"/>
+                            <constraint firstItem="h2k-3h-3dC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="h2k-3h-3dC"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="h2k-3h-3dC" secondAttribute="bottom" id="h2k-3h-3dC"/>
+                        </constraints>
+                    </view>
                     <connections>
-                        <segue destination="Jps-3G-p8a" kind="relationship" relationship="rootViewController" id="bqa-Wv-9ys"/>
+                        <outlet property="tableView" destination="h2k-3h-3dC" id="h2k-3h-3dC"/>
                     </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Lwl-tj-DN5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1305" y="-546"/>
-        </scene>
-        <!--NFC Example-->
-        <scene sceneID="ctO-6q-cP3">
-            <objects>
-                <tableViewController id="YYx-cn-ZTR" customClass="NFCTableViewController" customModule="NFC_Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="0gW-WP-nhO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="NFCTableCell" textLabel="Eas-6U-UQq" style="IBUITableViewCellStyleDefault" id="tSa-LQ-4Jl">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tSa-LQ-4Jl" id="Dw7-jb-B9N">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Eas-6U-UQq">
-                                            <rect key="frame" x="16" y="0.0" width="324" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="YYx-cn-ZTR" id="k5i-3o-3fn"/>
-                            <outlet property="delegate" destination="YYx-cn-ZTR" id="maH-zk-0Hy"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="NFC Example" id="P37-09-LRB">
-                        <barButtonItem key="leftBarButtonItem" title="RFID" id="4i8-5A-DeI">
-                            <connections>
-                                <segue destination="wR4-Da-dCQ" kind="presentation" id="m5f-wN-dCS"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Start Search" id="HKe-XC-bTi">
-                            <connections>
-                                <action selector="startNFCSearchButtonTapped:" destination="YYx-cn-ZTR" id="9lE-ye-A70"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ia5-Nl-lO4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="522" y="131"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="XA3-87-NNC">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="K24-7V-3kW" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="IdT-jx-SUR">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="YYx-cn-ZTR" kind="relationship" relationship="rootViewController" id="yIa-TH-sEW"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="16y-cz-bT2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-207" y="131"/>
+            <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

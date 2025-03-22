@@ -19,24 +19,24 @@ class NFCTableViewController: UITableViewController {
     // Reference the found NFC messages
     private var nfcMessages: [[NFCNDEFMessage]] = []
     
-    // Start the search when tapping the "Start Search" button
-    @IBAction func startNFCSearchButtonTapped(_ sender: Any) {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        startNFCSession()
+    }
+    
+    private func startNFCSession() {
+        // Create the NFC Reader Session when the app starts
+        self.nfcSession = NFCNDEFReaderSession(delegate: self, queue: nil, invalidateAfterFirstRead: false)
+        
+        // A custom description that helps users understand how they can use NFC reader mode in your app.
+        self.nfcSession.alertMessage = "Bạn có thể đặt thẻ NFC vào phía sau iPhone"
+        
+        // Begin scanning
         self.nfcSession.begin()
     }
     
-    func initializeNFCSession() {
-        // Create the NFC Reader Session when the app starts
-        self.nfcSession = NFCNDEFReaderSession(delegate: self, queue: DispatchQueue.main, invalidateAfterFirstRead: false)
-        self.nfcSession.alertMessage = "You can scan NFC-tags by holding them behind the top of your iPhone."
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Register our table-cell to display the records
-        self.tableView.register(NFCTableViewCell.self, forCellReuseIdentifier: "NFCTableCell")
-        
-        self.initializeNFCSession()
+    @IBAction func restartScanning(_ sender: Any) {
+        startNFCSession()
     }
     
     class func formattedTypeNameFormat(from typeNameFormat: NFCTypeNameFormat) -> String {
@@ -59,8 +59,38 @@ class NFCTableViewController: UITableViewController {
     }
 }
 
-// MARK: UITableViewDelegate / UITableViewDataSource
+// MARK: - NFCNDEFReaderSessionDelegate
+extension NFCTableViewController: NFCNDEFReaderSessionDelegate {
+    
+    // Called when the reader-session expired, you invalidated the dialog or accessed an invalidated session
+    func readerSession(_ session: NFCNDEFReaderSession, didInvalidateWithError error: Error) {
+        print("Lỗi đọc NFC: \(error.localizedDescription)")
+    }
+    
+    // Called when a new set of NDEF messages is found
+    func readerSession(_ session: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
+        print("Đã phát hiện thẻ NFC mới:")
+        
+        for message in messages {
+            for record in message.records {
+                print("Định dạng tên: \(record.typeNameFormat)")
+                print("Nội dung: \(record.payload)")
+                print("Loại: \(record.type)")
+                print("Định danh: \(record.identifier)")
+            }
+        }
+        
+        // Add the new messages to our found messages
+        self.nfcMessages.append(messages)
+        
+        // Reload our table-view on the main-thread to display the new data-set
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+}
 
+// MARK: - UITableViewDataSource
 extension NFCTableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -73,66 +103,17 @@ extension NFCTableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let numberOfMessages = self.nfcMessages[section].count
-        let headerTitle = numberOfMessages == 1 ? "One Message" : "\(numberOfMessages) Messages"
+        let headerTitle = numberOfMessages == 1 ? "Một thông điệp" : "\(numberOfMessages) thông điệp"
         
         return headerTitle
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NFCTableCell", for: indexPath) as! NFCTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NFCTableCell", for: indexPath)
         let nfcTag = self.nfcMessages[indexPath.section][indexPath.row]
         
-        cell.textLabel?.text = "\(nfcTag.records.count) Records"
-        cell.accessoryType = .disclosureIndicator
+        cell.textLabel?.text = "\(nfcTag.records.count) bản ghi"
         
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let nfcTag = self.nfcMessages[indexPath.section][indexPath.row]
-        let records = nfcTag.records.map({ String(describing: String(data: $0.payload, encoding: .utf8)!) })
-        
-        let alertTitle = " \(nfcTag.records.count) Records found in Message"
-        let alert = UIAlertController(title: alertTitle, message: records.joined(separator: "\n"), preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        
-        self.present(alert, animated: true, completion: nil)
-        self.tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-// MARK: NFCNDEFReaderSessionDelegate
-
-extension NFCTableViewController : NFCNDEFReaderSessionDelegate {
-    
-    // Called when the reader-session expired, you invalidated the dialog or accessed an invalidated session
-    func readerSession(_ session: NFCNDEFReaderSession, didInvalidateWithError error: Error) {
-        print("NFC-Session invalidated: \(error.localizedDescription)")
-        // initialize a new session
-        self.initializeNFCSession()
-    }
-    
-    // Called when a new set of NDEF messages is found
-    func readerSession(_ session: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
-        print("New NFC Messages (\(messages.count)) detected:")
-        
-        for message in messages {
-            print(" - \(message.records.count) Records:")
-            for record in message.records {
-                print("\t- TNF (TypeNameFormat): \(NFCTableViewController.formattedTypeNameFormat(from: record.typeNameFormat))")
-                print("\t- Payload: \(String(data: record.payload, encoding: .utf8)!)")
-                print("\t- Type: \(record.type)")
-                print("\t- Identifier: \(record.identifier)\n")
-            }
-        }
-        
-        // Add the new messages to our found messages
-        self.nfcMessages.append(messages)
-        
-        // Reload our table-view on the main-thread to display the new data-set
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
     }
 }
