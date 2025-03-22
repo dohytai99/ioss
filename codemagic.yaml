@@ -14,13 +14,15 @@ workflows:
           mkdir -p ~/Library/Developer/Xcode/DerivedData
           mkdir -p build/ios/archive
           mkdir -p build/ios/ipa
+          pwd
+          ls -la
       - name: Build IPA
         script: |
           xcodebuild clean -project "$XCODE_WORKSPACE" -scheme "$XCODE_SCHEME" -verbose
           xcodebuild archive \
             -project "$XCODE_WORKSPACE" \
             -scheme "$XCODE_SCHEME" \
-            -archivePath build/ios/archive/NFC-Example.xcarchive \
+            -archivePath "$PWD/build/ios/archive/NFC-Example.xcarchive" \
             CODE_SIGN_IDENTITY="-" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
@@ -37,9 +39,10 @@ workflows:
             IBSC_MODULE="NFC_Example" \
             IBSC_COMPILER_PATH="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ibtool" \
             -verbose
+          ls -la build/ios/archive/
           xcodebuild -exportArchive \
-            -archivePath build/ios/archive/NFC-Example.xcarchive \
-            -exportPath build/ios/ipa \
+            -archivePath "$PWD/build/ios/archive/NFC-Example.xcarchive" \
+            -exportPath "$PWD/build/ios/ipa" \
             -exportOptionsPlist ios/exportOptions.plist \
             -verbose
     artifacts:
