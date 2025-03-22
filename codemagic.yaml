@@ -6,7 +6,6 @@ workflows:
       vars:
         XCODE_WORKSPACE: "NFC-Example.xcodeproj"
         XCODE_SCHEME: "NFC-Example"
-        EXPORT_OPTIONS_PLIST: "ios/exportOptions.plist"
       xcode: latest
       cocoapods: default
     scripts:
@@ -22,7 +21,7 @@ workflows:
             -project "$XCODE_WORKSPACE" \
             -scheme "$XCODE_SCHEME" \
             -archivePath build/ios/archive/NFC-Example.xcarchive \
-            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_IDENTITY="-" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             DEVELOPMENT_TEAM="" \
@@ -31,7 +30,7 @@ workflows:
           xcodebuild -exportArchive \
             -archivePath build/ios/archive/NFC-Example.xcarchive \
             -exportPath build/ios/ipa \
-            -exportOptionsPlist "$EXPORT_OPTIONS_PLIST"
+            -exportOptionsPlist ios/exportOptions.plist
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
