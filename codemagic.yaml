@@ -6,8 +6,10 @@ workflows:
       vars:
         XCODE_WORKSPACE: "NFC-Example.xcodeproj"
         XCODE_SCHEME: "NFC-Example"
-      xcode: latest
+      xcode: 14.3
       cocoapods: default
+      groups:
+        - ios_credentials
     scripts:
       - name: Set up environment
         script: |
@@ -16,6 +18,16 @@ workflows:
           mkdir -p build/ios/ipa
           pwd
           ls -la
+      - name: Update project settings
+        script: |
+          # Update deployment target
+          /usr/libexec/PlistBuddy -c "Set :objects:*:buildSettings:IPHONEOS_DEPLOYMENT_TARGET 12.0" "$XCODE_WORKSPACE/project.pbxproj"
+          
+          # Update Swift version
+          /usr/libexec/PlistBuddy -c "Set :objects:*:buildSettings:SWIFT_VERSION 5.0" "$XCODE_WORKSPACE/project.pbxproj"
+          
+          # Update project format version
+          /usr/libexec/PlistBuddy -c "Set :objectVersion 54" "$XCODE_WORKSPACE/project.pbxproj"
       - name: Build IPA
         script: |
           # Clean DerivedData
