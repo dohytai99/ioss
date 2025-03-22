@@ -27,6 +27,9 @@ workflows:
             DEVELOPMENT_TEAM="" \
             PROVISIONING_PROFILE_SPECIFIER="" \
             PROVISIONING_PROFILE="" \
+            IPHONEOS_DEPLOYMENT_TARGET=12.0 \
+            SWIFT_VERSION=5.0 \
+            SWIFT_OPTIMIZATION_LEVEL=-Onone \
             -verbose
           xcodebuild -exportArchive \
             -archivePath build/ios/archive/NFC-Example.xcarchive \
